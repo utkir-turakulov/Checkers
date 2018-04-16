@@ -1,0 +1,15 @@
+C:\Users\admin\source\repos\Сheckers\bin\Release\Сheckers.exe.config
+C:\Users\admin\source\repos\Сheckers\bin\Release\Сheckers.exe
+C:\Users\admin\source\repos\Сheckers\bin\Release\Сheckers.pdb
+C:\Users\admin\source\repos\Сheckers\obj\Release\MainWindow.g.cs
+C:\Users\admin\source\repos\Сheckers\obj\Release\App.g.cs
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers_MarkupCompile.cache
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers_MarkupCompile.lref
+C:\Users\admin\source\repos\Сheckers\obj\Release\MainWindow.baml
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers.g.resources
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers.Properties.Resources.resources
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers.csproj.GenerateResource.Cache
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers.exe
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers.pdb
+C:\Users\admin\source\repos\Сheckers\obj\Release\Сheckers.csprojResolveAssemblyReference.cache
