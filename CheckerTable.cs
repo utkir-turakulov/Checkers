@@ -161,6 +161,15 @@ namespace Сheckers
                     Cell to = new Cell(Grid.GetRow(border), Grid.GetColumn(border));
                     Move(from, to, clickCounter);
 
+                    if(_cells[from.Row,from.Coll].Child != null)
+                    {
+                        Step step = new Step(from, to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
+                        ////steps.Add(step);
+                        string message = JsonConvert.SerializeObject(steps);
+                        NotifyObservers(message);
+                        steps.Clear();
+                    }
+
                    /* IShape checker = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)];
                     IShape newChecker = null;
                     if (checker != null && checker.GetType() == typeof(Checker))
@@ -271,16 +280,16 @@ namespace Сheckers
                 {
                     if (shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].Move(border, _cells))//пытаемся выполнить действие
                     {
-                        Cell move_to = new Cell();
-                        move_to.Coll = Grid.GetColumn(border);
-                        move_to.Row = Grid.GetRow(border);
-                        Cell move_from = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetCell();
+                        //Cell move_to = new Cell();
+                        //move_to.Coll = Grid.GetColumn(border);
+                        //move_to.Row = Grid.GetRow(border);
+                        //Cell move_from = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetCell();
 
-                        Step step = new Step(move_from, move_to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
-                        steps.Add(step);
+                        //Step step = new Step(move_from, move_to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
+                        //steps.Add(step);
                         shapes[checker.GetCell().Row, checker.GetCell().Coll] = null;
-                        string message = JsonConvert.SerializeObject(steps);
-                        NotifyObservers(message);// оповещаем наблюдателей 
+                        //string message = JsonConvert.SerializeObject(steps);
+                        //NotifyObservers(message);// оповещаем наблюдателей 
                         steps.Clear();
                     }
                     else
@@ -298,20 +307,20 @@ namespace Сheckers
 
                     if (shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].Move(border, _cells))
                     {
-                        Cell move_to = new Cell();
-                        move_to.Coll = Grid.GetColumn(border);
-                        move_to.Row = Grid.GetRow(border);
-                        Cell move_from = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetCell();
+                        //Cell move_to = new Cell();
+                        //move_to.Coll = Grid.GetColumn(border);
+                        //move_to.Row = Grid.GetRow(border);
+                        //Cell move_from = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetCell();
 
-                        Step step = new Step(move_from, move_to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
-                        steps.Add(step);
-                        string message = JsonConvert.SerializeObject(steps);
+                        //Step step = new Step(move_from, move_to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
+                        //steps.Add(step);
+                        //string message = JsonConvert.SerializeObject(steps);
 
                         shapes[oldQueen.GetCell().Row, oldQueen.GetCell().Coll] = null;
                         shapes[Grid.GetRow(border), Grid.GetColumn(border)] = newQueen;
 
-                        NotifyObservers(message);// оповещаем наблюдателей 
-                        steps.Clear();
+                        //NotifyObservers(message);// оповещаем наблюдателей 
+                        //steps.Clear();
                     }
                     else
                     {
