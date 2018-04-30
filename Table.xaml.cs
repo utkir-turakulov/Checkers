@@ -17,14 +17,28 @@ namespace Сheckers
     /// <summary>
     /// Логика взаимодействия для Table.xaml
     /// </summary>
-    public partial class Table : Window 
+    public partial class Table : UserControl 
     {
+
+        private enum UserColor:int
+        {
+            White = 0,
+            Black = 1
+        }
+        
 
         public Table()
         {
+
+        }
+
+        public Table(int mode)
+        {
+
             InitializeComponent();
+            //int selectedColor = 0;///TODO Реализовать возможность выбора цвета пользователя от которого будет зависеть начало хода 
             Game game = new Game(this);
-            game.Start();
+            game.Start(mode);
             //game.SetupRowsAndColumns();           
             //game.SetupCells();
             //game.SetupCheckers();

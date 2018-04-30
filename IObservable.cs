@@ -10,6 +10,6 @@ namespace Сheckers
     {
         void AddObserver(IObserver o);
         void RemoveObserver(IObserver o);
-        void NotifyObservers();
+        void NotifyObservers(string message);
     }
 }

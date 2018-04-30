@@ -20,11 +20,11 @@ namespace Сheckers
             observers.Add(o);
         }
 
-        public void NotifyObservers()
+        public void NotifyObservers(string message)
         {
            foreach(IObserver observer in observers)
             {
-                observer.Update();
+                observer.Update(message);
             }
         }
 

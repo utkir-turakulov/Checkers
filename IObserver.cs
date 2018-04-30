@@ -8,6 +8,6 @@ namespace Сheckers
 {
     interface IObserver
     {
-        void Update();
+        void Update(string message);
     }
 }

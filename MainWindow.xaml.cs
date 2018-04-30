@@ -20,14 +20,49 @@ namespace Сheckers
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private enum GameMode : int
+        {
+            Join = 0,
+            Start = 1
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            InitialEvents();
         }
 
-        public void click()
+        public void InitialEvents()
         {
-            
+            Start.Click += MenuItemClick;
+            Join.Click += MenuItemClick;
+            Exit.Click += MenuItemClick;
+            User_list.Click += MenuItemClick; 
         }
+
+        public void MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = sender as MenuItem;
+            //UserControl control =   Table ;          
+
+            switch (item.Header.ToString())
+            {
+                case "Start game":
+                 
+                    DockPanel.Children.Add(new Table((int)GameMode.Start));
+                    break;
+                case "Join":
+                 //   DockPanel.Children.Clear();
+                    DockPanel.Children.Add(new Table((int)GameMode.Join));
+                    break;
+                case "Show user list":
+                   // DockPanel.Children.Clear();
+                    DockPanel.Children.Add(new UserList());
+                    break;
+            }
+
+        }
+
     }
 }
