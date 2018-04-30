@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
+using System.Windows.Threading;
 
 namespace Сheckers
 {
@@ -156,7 +157,11 @@ namespace Сheckers
 
                 if (clickCounter == 2)
                 {
-                    IShape checker = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)];
+                    Cell from = new Cell(Grid.GetRow(firstClicked),Grid.GetColumn(firstClicked));
+                    Cell to = new Cell(Grid.GetRow(border), Grid.GetColumn(border));
+                    Move(from, to, clickCounter);
+
+                   /* IShape checker = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)];
                     IShape newChecker = null;
                     if (checker != null && checker.GetType() == typeof(Checker))
                     {
@@ -168,8 +173,6 @@ namespace Сheckers
                         newChecker = new Queen(_cells[Grid.GetRow(border), Grid.GetColumn(border)], shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetColor());
                         shapes[newChecker.GetCell().Row, newChecker.GetCell().Coll] = newChecker;
                     }
-
-
 
 
                     if (newChecker != null && newChecker.GetCell().Row != newChecker.QueenSide()) //если шашка дошла до края противника
@@ -223,12 +226,10 @@ namespace Сheckers
                             // shapes[Grid.GetRow(border), Grid.GetColumn(border)] = null;
                         }
 
-                    }
+                    }*/
                 }
-
                 clickCounter = 0;
             }
-
 
         }//MoveChecker
 
@@ -245,7 +246,83 @@ namespace Сheckers
             return new SolidColorBrush();
         }
 
+        private void Move(Cell from,Cell to,int clickCounter)
+        {
+            firstClicked = _cells[from.Row,from.Coll];
+            Border border = _cells[to.Row, to.Coll];
 
+            if (clickCounter == 2)
+            {
+                IShape checker = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)];
+                IShape newChecker = null;
+                if (checker != null && checker.GetType() == typeof(Checker))
+                {
+                    newChecker = new Checker(_cells[Grid.GetRow(border), Grid.GetColumn(border)], shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetColor());
+                    shapes[newChecker.GetCell().Row, newChecker.GetCell().Coll] = newChecker;
+                }
+                if (checker != null && checker.GetType() == typeof(Queen))
+                {
+                    newChecker = new Queen(_cells[Grid.GetRow(border), Grid.GetColumn(border)], shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetColor());
+                    shapes[newChecker.GetCell().Row, newChecker.GetCell().Coll] = newChecker;
+                }
+
+
+                if (newChecker != null && newChecker.GetCell().Row != newChecker.QueenSide()) //если шашка дошла до края противника
+                {
+                    if (shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].Move(border, _cells))//пытаемся выполнить действие
+                    {
+                        Cell move_to = new Cell();
+                        move_to.Coll = Grid.GetColumn(border);
+                        move_to.Row = Grid.GetRow(border);
+                        Cell move_from = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetCell();
+
+                        Step step = new Step(move_from, move_to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
+                        steps.Add(step);
+                        shapes[checker.GetCell().Row, checker.GetCell().Coll] = null;
+                        string message = JsonConvert.SerializeObject(steps);
+                        NotifyObservers(message);// оповещаем наблюдателей 
+                        steps.Clear();
+                    }
+                    else
+                    {
+                        shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)] = checker;
+                        shapes[Grid.GetRow(border), Grid.GetColumn(border)] = null;
+                    }
+                }
+                else
+                {
+
+                    IShape oldQueen = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)];
+                    IShape newQueen = new Queen(_cells[Grid.GetRow(border), Grid.GetColumn(border)], shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetColor());
+                    shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)] = new Queen(_cells[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)], shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetColor());
+
+                    if (shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].Move(border, _cells))
+                    {
+                        Cell move_to = new Cell();
+                        move_to.Coll = Grid.GetColumn(border);
+                        move_to.Row = Grid.GetRow(border);
+                        Cell move_from = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)].GetCell();
+
+                        Step step = new Step(move_from, move_to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
+                        steps.Add(step);
+                        string message = JsonConvert.SerializeObject(steps);
+
+                        shapes[oldQueen.GetCell().Row, oldQueen.GetCell().Coll] = null;
+                        shapes[Grid.GetRow(border), Grid.GetColumn(border)] = newQueen;
+
+                        NotifyObservers(message);// оповещаем наблюдателей 
+                        steps.Clear();
+                    }
+                    else
+                    {
+                        shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)] = oldQueen;
+                        // shapes[Grid.GetRow(border), Grid.GetColumn(border)] = null;
+                    }
+
+                }
+            }
+            clickCounter = 0;
+        }
 
 
         /**/
@@ -261,25 +338,22 @@ namespace Сheckers
 
         public void NotifyObservers(string message)
         {
-            //   string message = JsonConvert.SerializeObject(steps);
-
             foreach (IObserver observer in observers)
                 observer.Update(message);
         }
 
         public void Update(string message)
         {
-            // JsonConvert.
             List<Step> steps = JsonConvert.DeserializeObject<List<Step>>(message);
             foreach (Step step in steps)
             {
-                _cells[step.From.Row, step.From.Coll] = _cells[step.To.Row, step.To.Coll];
-                Border border = _cells[step.To.Row, step.To.Coll];
-
-                shapes[step.From.Row, step.From.Coll].Move(border, _cells);
-                shapes[step.From.Row, step.From.Coll] = null;
-                _cells[step.From.Row, step.From.Coll] = null;
+                /*/ _cells[step.From.Row, step.From.Coll] = _cells[step.To.Row, step.To.Coll];
+                   Ellipse ellipse = _cells[step.From.Row, step.From.Coll].Child as Ellipse;
+                   shapes[step.From.Row, step.From.Coll] = null;
+                   _cells[step.From.Row, step.From.Coll].Child = null;*/
+                Move(step.From, step.To,2);
             }
         }
+
     }//CheckerTab
 }//namespace

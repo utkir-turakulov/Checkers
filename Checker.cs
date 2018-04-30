@@ -154,12 +154,9 @@ namespace Сheckers
                     }
                     else
                         return false;
-
                 }
-                
             }
             return false;
-
         }//Move()
 
 

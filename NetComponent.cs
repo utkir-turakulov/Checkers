@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Сheckers
 {
@@ -256,8 +258,8 @@ namespace Сheckers
 
                     MessageBox.Show("Полученный текст: " + data + "\n\n");
 
-                    NotifyObservers(data);
-
+                    Application.Current.Dispatcher.Invoke(new Action(() =>NotifyObservers(data)));
+                   
                     string reply = "Recived";
                     byte[] msg = Encoding.UTF8.GetBytes(reply);
                     handler.Send(msg);
