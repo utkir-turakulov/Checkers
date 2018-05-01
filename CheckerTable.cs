@@ -99,10 +99,10 @@ namespace Сheckers
                         Fill = Brushes.White
                     };
                     _cells[row, pos + (row + 1) % 2].Child = _whiteCheckers[iWhite];
-                    if (USERCOLOR != (int)CheckerColor.White)
+                  /*  if (USERCOLOR != (int)CheckerColor.White)
                     {
                         _cells[row, pos + (row + 1) % 2].MouseLeftButtonDown -= MoveChecker;
-                    }
+                    }*/
                     shapes[row, pos + (row + 1) % 2] = new Checker(_cells[row, pos + (row + 1) % 2], Brushes.White.Color);
                     checker_pos[row, pos + (row + 1) % 2] = 1;
 
@@ -124,11 +124,11 @@ namespace Сheckers
                     };
                     _cells[row, pos + (row + 1) % 2].Child = _blackCheckers[iBlack];
 
-                    if (USERCOLOR != (int)CheckerColor.Black)
+                 /*   if (USERCOLOR != (int)CheckerColor.Black)
                     {
                         _cells[row, pos + (row + 1) % 2].MouseLeftButtonDown -= MoveChecker;
                     }
-
+                    */
                     shapes[row, pos + (row + 1) % 2] = new Checker(_cells[row, pos + (row + 1) % 2], Brushes.Black.Color);
                     checker_pos[row, pos + (row + 1) % 2] = 2;
                     iBlack++;
@@ -161,14 +161,14 @@ namespace Сheckers
                     Cell to = new Cell(Grid.GetRow(border), Grid.GetColumn(border));
                     Move(from, to, clickCounter);
 
-                    if(_cells[from.Row,from.Coll].Child != null)
-                    {
+                    /*if(_cells[from.Row,from.Coll].Child != null)
+                    {*/
                         Step step = new Step(from, to, shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)]);
-                        ////steps.Add(step);
+                        steps.Add(step);
                         string message = JsonConvert.SerializeObject(steps);
                         NotifyObservers(message);
                         steps.Clear();
-                    }
+                   // }
 
                    /* IShape checker = shapes[Grid.GetRow(firstClicked), Grid.GetColumn(firstClicked)];
                     IShape newChecker = null;
@@ -239,7 +239,8 @@ namespace Сheckers
                 }
                 clickCounter = 0;
             }
-
+            if (clickCounter > 2)
+                clickCounter = 0;
         }//MoveChecker
 
         private SolidColorBrush GetColor(Color brush)
