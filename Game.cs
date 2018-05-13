@@ -35,8 +35,16 @@ namespace Сheckers
             observers = new List<IObserver>();
             steps = new List<Step>();
             int userColor = 0;//TODO:  реализовать выбор цыета на форме
+        }
 
-
+        public Game(Table window, string local_host, string remote_host)
+        {
+            this.window = window;
+            observers = new List<IObserver>();
+            steps = new List<Step>();
+            int userColor = 0;//TODO:  реализовать выбор цыета на форме
+            HOME_HOST = local_host;
+            SYNCRONIZATION_HOST = remote_host;
         }
 
         public void Start(int mode)

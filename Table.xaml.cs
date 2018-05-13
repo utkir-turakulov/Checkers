@@ -45,5 +45,12 @@ namespace Сheckers
             //game.AddObserver(net);
         }
 
+        public Table(int mode,string remote_ip,string local_ip)
+        {
+            InitializeComponent();
+            Game game = new Game(this,local_ip,remote_ip);
+            game.Start(mode);
+        }
+
     }
 }

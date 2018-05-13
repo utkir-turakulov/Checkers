@@ -43,25 +43,33 @@ namespace Сheckers
 
         public void MenuItemClick(object sender, RoutedEventArgs e)
         {
-            MenuItem item = sender as MenuItem;
-            //UserControl control =   Table ;          
+             MenuItem item = sender as MenuItem;
 
-            switch (item.Header.ToString())
+            if (!remote_ip.Text.Equals(""))
             {
-                case "Start game":
-                 
-                    DockPanel.Children.Add(new Table((int)GameMode.Start));
-                    break;
-                case "Join":
-                 //   DockPanel.Children.Clear();
-                    DockPanel.Children.Add(new Table((int)GameMode.Join));
-                    break;
-                case "Show user list":
-                   // DockPanel.Children.Clear();
-                    DockPanel.Children.Add(new UserList());
-                    break;
+                switch (item.Header.ToString())
+                {
+                    case "Start game":
+                        TableRow.Children.Clear();
+                        TableRow.Children.Add(element: new Table((int)GameMode.Start)
+                        {
+                        });
+                        break;
+                    case "Join":
+                        TableRow.Children.Clear();
+                        TableRow.Children.Add(new Table((int)GameMode.Join,remote_ip.Text,local_ip.Text)                      {
+                        });
+                        break;
+                    case "Show user list":
+                        TableRow.Children.Clear();
+                        TableRow.Children.Add(new UserList());
+                        break;
+                }
             }
-
+            else
+            {
+                MessageBox.Show("Не введен IP противника!!! \n Для синхронизации введите данные");
+            }     
         }
 
     }
