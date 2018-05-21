@@ -2,15 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace Сheckers
 {
@@ -211,7 +206,6 @@ namespace Сheckers
                         synchronized = true;
                         return true;
                     }
-
                 }
 
                 return false;
@@ -232,12 +226,11 @@ namespace Сheckers
             }
         }
 
-
         public void Listener()
         {
             IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 4000);
-
             Socket socketListener = new Socket(iPEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            Socket handler = null;
 
             try
             {
@@ -246,9 +239,9 @@ namespace Сheckers
 
                 while (true)
                 {
-                    MessageBox.Show("Ожидаем соединение через порт {0}" + iPEndPoint);
+                 //   MessageBox.Show("Ожидаем соединение через порт {0}" + iPEndPoint);
 
-                    Socket handler = socketListener.Accept();
+                    handler = socketListener.Accept();
                     string data = null;
 
                     byte[] bytes = new byte[2048];
@@ -256,7 +249,7 @@ namespace Сheckers
 
                     data += Encoding.UTF8.GetString(bytes, 0, recievedBytes);
 
-                    MessageBox.Show("Полученный текст: " + data + "\n\n");
+                //    MessageBox.Show("Полученный текст: " + data + "\n\n");
 
                     Application.Current.Dispatcher.Invoke(new Action(() =>NotifyObservers(data)));
                    
@@ -270,8 +263,8 @@ namespace Сheckers
                         break;
                     }
 
-                    handler.Shutdown(SocketShutdown.Both);
-                    handler.Close();
+                    /*handler.Shutdown(SocketShutdown.Both);
+                    handler.Close();*/
                 }
             }
             catch (Exception ex)
@@ -280,6 +273,8 @@ namespace Сheckers
             }
             finally
             {
+                handler.Shutdown(SocketShutdown.Both);
+                handler.Close();
                 //Console.ReadLine();
             }
         }

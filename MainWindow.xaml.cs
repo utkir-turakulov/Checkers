@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Сheckers
 {
@@ -38,12 +26,12 @@ namespace Сheckers
             Start.Click += MenuItemClick;
             Join.Click += MenuItemClick;
             Exit.Click += MenuItemClick;
-            User_list.Click += MenuItemClick; 
+            User_list.Click += MenuItemClick;
         }
 
         public void MenuItemClick(object sender, RoutedEventArgs e)
         {
-             MenuItem item = sender as MenuItem;
+            MenuItem item = sender as MenuItem;
 
             if (!remote_ip.Text.Equals(""))
             {
@@ -51,13 +39,14 @@ namespace Сheckers
                 {
                     case "Start game":
                         TableRow.Children.Clear();
-                        TableRow.Children.Add(element: new Table((int)GameMode.Start)
+                        TableRow.Children.Add(element: new Table((int)GameMode.Start, remote_ip.Text, local_ip.Text)
                         {
                         });
                         break;
                     case "Join":
                         TableRow.Children.Clear();
-                        TableRow.Children.Add(new Table((int)GameMode.Join,remote_ip.Text,local_ip.Text)                      {
+                        TableRow.Children.Add(new Table((int)GameMode.Join, remote_ip.Text, local_ip.Text)
+                        {
                         });
                         break;
                     case "Show user list":
@@ -69,8 +58,7 @@ namespace Сheckers
             else
             {
                 MessageBox.Show("Не введен IP противника!!! \n Для синхронизации введите данные");
-            }     
+            }
         }
-
     }
 }

@@ -1,12 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Сheckers
 {
@@ -19,8 +13,8 @@ namespace Сheckers
         private CheckerTable table;
         private NetComponent net;
         const string SYNCHRONIZATION_NAME = "READY";
-        private string HOME_HOST = "192.168.0.106";
-        private string SYNCRONIZATION_HOST = "192.168.0.104";
+        private string HOME_HOST;// = "192.168.0.106";
+        private string SYNCRONIZATION_HOST;//= "192.168.0.104";
         private Thread listener = null;
 
         private enum GameMode : int
